@@ -62,7 +62,7 @@ const LoginForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Email
+                    Password
                   </FormLabel>
                   <FormControl>
                     <Input 
