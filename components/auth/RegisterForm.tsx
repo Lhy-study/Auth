@@ -2,6 +2,7 @@
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import {
     Form,
@@ -15,6 +16,7 @@ import { Input } from "../ui/input";
 import { RegisterSchema } from "@/schemas";
 import CardWrapper from "./CardWrapper";
 import { Button } from "../ui/button";
+import { register } from "@/actions/register";
 
 const RegisterForm = () => {
     const form = useForm<z.infer<typeof RegisterSchema>>({
@@ -26,7 +28,14 @@ const RegisterForm = () => {
         }
     });
     const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
-        console.log(values)
+        register(values).then((res)=>{
+            if (res?.error) {
+                toast.error(res?.error)
+              }
+              if (res?.success) {
+                toast.error(res?.success)
+              }
+        });
     }
     return (
         <CardWrapper

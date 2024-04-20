@@ -15,6 +15,8 @@ import { Input } from "../ui/input";
 import { LoginSchema } from "@/schemas";
 import CardWrapper from "./CardWrapper";
 import { Button } from "../ui/button";
+import { login } from "@/actions/login";
+import toast from "react-hot-toast";
 
 const LoginForm = () => {
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -24,8 +26,12 @@ const LoginForm = () => {
       password: ''
     }
   });
-  const onSubmit = (values:z.infer<typeof LoginSchema>)=>{
-    console.log(values)
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    login(values).then((res) => {
+      if (res?.error) {
+        toast.error(res?.error)
+      }
+    })
   }
   return (
     <CardWrapper
@@ -46,11 +52,11 @@ const LoginForm = () => {
                     Email
                   </FormLabel>
                   <FormControl>
-                    <Input 
-                    {...field} 
-                    placeholder="请输入您的邮箱"
-                    type="email"
-                  />
+                    <Input
+                      {...field}
+                      placeholder="请输入您的邮箱"
+                      type="email"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -65,11 +71,11 @@ const LoginForm = () => {
                     Password
                   </FormLabel>
                   <FormControl>
-                    <Input 
-                    {...field} 
-                    placeholder="请输入您的密码"
-                    type="password"
-                  />
+                    <Input
+                      {...field}
+                      placeholder="请输入您的密码"
+                      type="password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
