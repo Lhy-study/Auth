@@ -1,6 +1,9 @@
-const page = () => {
+import { auth } from "@/auth"
+
+const page = async () => {
+  let data = await auth();
   return (
-    <div>测试</div>
+    <div>{JSON.stringify(data)}</div>
   )
 }
 export default page
