@@ -6,8 +6,9 @@ import { RegisterSchema } from "@/schemas";
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
 import { generateVerificationToken } from "@/lib/tokens";
-import { generateCode , emailTemplate} from "@/lib/verificationCode";
+import { generateCode } from "@/lib/verificationCode";
 import { sendEmail } from "@/lib/email";
+import { emailTemplate } from "@/lib/template";
 
 /** 注册 */
 export const register = async (values: z.infer<typeof RegisterSchema>) => {

@@ -1,7 +1,9 @@
+import * as z from "zod";
+import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { getIsVertify, getVerificationTokenByToken } from "@/data/verificiation-token";
 import { CodeSchema } from "@/schemas";
-import * as z from "zod";
+import { getPasswordTokenByToken } from "@/data/new-password";
 
 /** 验证 */
 export const vertify = async (values: z.infer<typeof CodeSchema>, token: string) => {
@@ -30,6 +32,12 @@ export const vertify = async (values: z.infer<typeof CodeSchema>, token: string)
         return { error: '验证码输入错误!' }
     }
 
+    await db.verificationToken.delete({
+        where:{
+            token:data.token
+        }
+    })
+
     //验证成功的
     console.log(data.token)
     await db.user.update({
@@ -42,4 +50,35 @@ export const vertify = async (values: z.infer<typeof CodeSchema>, token: string)
     });
 
     return { success: '验证成功' };
+}
+
+/** 修改密码 */
+export const newPassword = async (token:string , password:string) => {
+    const result = await getPasswordTokenByToken(token);
+    const hashedPassword = await bcrypt.hash(password,10);
+    if(!result){
+        return { error : 'Invalid fields!' }
+    }
+
+    const time = Date.now();
+    if(result.expires.getTime() < time){
+        return { error : '有效期已过，请重新修改!' }
+    }
+
+    await db.newPasswordToken.delete({
+        where:{
+            token,
+        }
+    });
+
+    await db.user.update({
+        where:{
+            email:result.email
+        },
+        data:{
+            password:hashedPassword
+        }
+    });
+
+    return { success : '密码重置成功!' }
 }

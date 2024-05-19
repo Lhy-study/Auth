@@ -1,10 +1,12 @@
 /** 公共的路由，不需要身份验证 */
 export const publicRoutes = [
     '/',
-    '/auth/new-verification'
+    '/auth/new-verification',
+    '/auth/new-password',
+    '/auth/reset-password'
 ]
 
-/** 用于身份验证的路由 这些路由将会被重定向*/
+/** 用于身份验证的路由 因为登录后这些路由将会被重定向*/
 export const authRoutes = [
     '/auth/login',
     '/auth/register',

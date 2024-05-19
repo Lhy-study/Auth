@@ -1,32 +1,14 @@
 import * as nodemailer from "nodemailer";
 
-// export type MailType = 'QQ'|'WY'|undefined;
-
-// /** 判断是什么邮箱 */
-// export const parseMail = (url:string) => {
-//     /**判断是否为qq邮箱 */
-//     const isQQ = /^[a-zA-Z][1-9]\d{4,10}@qq.com$/.test(url);
-//     /** 判断是否为网易邮箱 */
-//     const isWY = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+@163.com$/.test(url);
-
-//     if(isQQ){
-//         return 'QQ'
-//     }
-
-//     if(isWY){
-//         return 'WY'
-//     }
-// }
-
 /** 邮箱数据 */
 export interface MailInfo{
-    // 目标邮箱
+    /** 目标邮箱 */
     to:string;
-    // 标题
+   /** 标题 */
     subject:string;
-    // 文本
+    /** 文本 */
     text?:string;
-    // 富文本, 文本和富文本优先富文本
+    /** 富文本, 文本和富文本优先富文本 */ 
     html?:string;
 }
 

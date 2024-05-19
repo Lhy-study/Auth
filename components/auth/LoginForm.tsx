@@ -17,6 +17,7 @@ import CardWrapper from "./CardWrapper";
 import { Button } from "../ui/button";
 import { login } from "@/actions/login";
 import toast from "react-hot-toast";
+import Link from "next/link"
 
 const LoginForm = () => {
   const form = useForm<z.infer<typeof LoginSchema>>({
@@ -86,6 +87,16 @@ const LoginForm = () => {
               )}
             />
           </div>
+          <Button
+            size="sm"
+            variant={'link'}
+            asChild
+            className="px-0"
+          >
+            <Link href={'/auth/reset-password'}>
+              忘记密码
+            </Link>
+          </Button>
           <Button className="w-full">
             登录
           </Button>

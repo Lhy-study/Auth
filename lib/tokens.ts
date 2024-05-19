@@ -8,7 +8,7 @@ export const generateVerificationToken = async (email: string , code:string) => 
     const token = uuidv4();
 
     /** 一小时有效期 */
-    const expires = new Date(Date.now() + 3600 * 1000);
+    const expires = new Date(Date.now() + 600 * 1000);
 
     const existingToken = await getVerificationTokenByEmail(email);
 
