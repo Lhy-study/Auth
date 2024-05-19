@@ -33,7 +33,8 @@ const RegisterForm = () => {
                 toast.error(res?.error)
               }
               if (res?.success) {
-                toast.error(res?.success)
+                toast.success(res?.success);
+                form.reset();
               }
         });
     }

@@ -4,6 +4,10 @@ import bcrypt from "bcryptjs";
 
 import { RegisterSchema } from "@/schemas";
 import { db } from "@/lib/db";
+import { getUserByEmail } from "@/data/user";
+import { generateVerificationToken } from "@/lib/tokens";
+import { generateCode , emailTemplate} from "@/lib/verificationCode";
+import { sendEmail } from "@/lib/email";
 
 /** 注册 */
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
@@ -15,9 +19,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
     const { email, name, password } = vaildatedFields.data;
     const hashedPassword = await bcrypt.hash(password,10);
-    const existingUser = await db.user.findUnique({
-        where: { email }
-    });
+    const existingUser = await getUserByEmail(email);
 
     if(existingUser?.name){
         return {
@@ -33,5 +35,15 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
         }
     });
 
-    return { success: "创建成功!" };
+    // 生成验证码
+    const code = generateCode();
+    const verificationToken = await generateVerificationToken(email , code);
+    sendEmail({
+        to: email,
+        subject: '请验证验证您的邮箱',
+        text:'欢迎来到Auth!',
+        html:emailTemplate(email,code,process.env.BASEDOMAIN+`/auth/new-verification?token=${verificationToken.token}`)
+    });
+
+    return { success: "验证码已发送!" };
 }

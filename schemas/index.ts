@@ -23,3 +23,9 @@ export const RegisterSchema = z.object({
         message:'密码长度至少为6位'
     })
 });
+
+export const CodeSchema = z.object({
+    code: z.string().min(6, {
+      message: "您必须输入发送至您邮箱的六位验证码。",
+    }),
+  })

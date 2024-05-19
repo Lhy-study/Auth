@@ -29,7 +29,11 @@ const LoginForm = () => {
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     login(values).then((res) => {
       if (res?.error) {
-        toast.error(res?.error)
+        toast.error(res.error)
+      }
+      if (res?.success) {
+        toast.success(res.success)
+        form.reset();
       }
     })
   }

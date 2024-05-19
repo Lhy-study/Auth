@@ -1,18 +1,18 @@
-'use client';
+import { signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
-import toast from "react-hot-toast";
 
-const page = () => {
+function SignOut() {
   return (
-    <div>
-      <Button onClick={()=>{
-        toast.error('成功',{
-          position:'top-center',
-          duration:2000
-        });
-        console.dir(toast)
-      }}>toast</Button>
-    </div>
+    <form
+      action={async () => {
+        "use server"
+        await signOut()
+      }}
+    >
+      <button type="submit">Sign Out</button>
+      
+    </form>
   )
 }
-export default page
+
+export default SignOut

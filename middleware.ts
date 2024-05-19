@@ -29,7 +29,7 @@ export default auth((req) => {
   }
 
   if(!isLogin && !isPublicRoute){
-    console.log(nextUrl)
+    // console.log(nextUrl)
     return Response.redirect(new URL('/auth/login',nextUrl));
   }
 
