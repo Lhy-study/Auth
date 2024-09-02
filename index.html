@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OFD to PDF Converter</title>
+</head>
+<body>
+    <h1>Convert OFD to PDF</h1>
+    <input type="file" id="ofdInput" accept=".ofd">
+    <button id="convertButton">Convert to PDF</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        document.getElementById('convertButton').addEventListener('click', () => {
+            const fileInput = document.getElementById('ofdInput');
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('Please select an OFD file.');
+                return;
+            }
+
+            const zip = new JSZip();
+            zip.loadAsync(file)
+                .then((zip) => {
+                    // 假设OFD文件的内容是压缩的，提取主要的XML文件
+                    return zip.file('OFD.xml').async('string');
+                })
+                .then((xmlContent) => {
+                    // 使用DOMParser解析XML内容
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(xmlContent, 'application/xml');
+                    
+                    const pages = xmlDoc.getElementsByTagName('Page');
+
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF();
+
+                    for (let i = 0; i < pages.length; i++) {
+                        if (i > 0) pdf.addPage();
+
+                        const textObjects = pages[i].getElementsByTagName('TextObject');
+
+                        for (let j = 0; j < textObjects.length; j++) {
+                            const text = textObjects[j].textContent;
+                            const boundary = textObjects[j].getAttribute('Boundary').split(' ');
+                            const x = parseFloat(boundary[0]);
+                            const y = parseFloat(boundary[1]);
+                            pdf.text(text, x, y);
+                        }
+                    }
+
+                    pdf.save('output.pdf');
+                })
+                .catch((error) => {
+                    console.error('Error during conversion:', error);
+                    alert('Failed to convert OFD to PDF.');
+                });
+        });
+    </script>
+</body>
+</html>

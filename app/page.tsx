@@ -7,7 +7,7 @@ import LoginButton from "@/components/auth/LoginButton";
 export default function Home() {
   return (
     <>
-      <main className="w-full h-full  flex justify-center items-center" style={{ backgroundImage: 'linear-gradient(to right top, #ffffff, #eff1f9, #dae4f3, #c0d9eb, #a4cfdf, #8fb7c9, #7ba0b4, #688a9f, #596376, #44404c, #272226, #000000);' }}>
+      <main className="w-full h-full  flex justify-center items-center backgorund">
         <div className="space-y-6">
           <div className="text-6xl font-semibold text-black flex gap-x-2 items-center">
             {/* Icon必须是客户但组件  */}

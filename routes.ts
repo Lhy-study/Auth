@@ -3,7 +3,9 @@ export const publicRoutes = [
     '/',
     '/auth/new-verification',
     '/auth/new-password',
-    '/auth/reset-password'
+    '/auth/reset-password',
+    '/utils',
+    '/doc',
 ]
 
 /** 用于身份验证的路由 因为登录后这些路由将会被重定向*/
@@ -17,4 +19,4 @@ export const authRoutes = [
 export const apiAuthPrefix = '/api/auth';
 
 /** 用于用户登录后默认的重定向路由 */
-export const DEFAULT_LOGIN_REDIRECT = '/default'
+export const DEFAULT_LOGIN_REDIRECT = '/notion'

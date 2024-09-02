@@ -19,7 +19,7 @@ export const vertify = async (values: z.infer<typeof CodeSchema>, token: string)
         return { error: '邮箱不存在' }
     }
     const isVertify = await getIsVertify(data.email);
-    if(isVertify){
+    if(isVertify?.emailVerified){
         return { error: '该邮箱已经验证过了，无需重复验证!' }
     }
     const time = Date.now();
